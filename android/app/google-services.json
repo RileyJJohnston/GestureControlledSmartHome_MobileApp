@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "516362407322",
+    "project_id": "smarthome-4feea",
+    "storage_bucket": "smarthome-4feea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516362407322:android:9ff63ea7e0af95567f3e23",
+        "android_client_info": {
+          "package_name": "proj.iot.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516362407322-d7gumlvsqjpv34jr1hjgj5be56617cu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHVHw7Q6ZD2TkXqCWyW_dz4vvrPzt6E30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516362407322-d7gumlvsqjpv34jr1hjgj5be56617cu6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
