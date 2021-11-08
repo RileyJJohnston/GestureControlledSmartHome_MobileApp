@@ -101,3 +101,33 @@ const Padding(
             ),
 
  */
+
+/*
+
+GestureDetector(
+  onTap: () {}, // handle your image tap here
+  child: Image.asset(
+    'assets/cat.jpg',
+    fit: BoxFit.cover, // this is the solution for border
+    width: 110.0,
+    height: 110.0,
+  ),
+)
+ */
+
+/*
+InkWell(
+  onTap: () {}, // Handle your callback.
+  splashColor: Colors.brown.withOpacity(0.5),
+  child: Ink(
+    height: 100,
+    width: 100,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage('your_image_asset'),
+        fit: BoxFit.cover,
+      ),
+    ),
+  ),
+)
+ */

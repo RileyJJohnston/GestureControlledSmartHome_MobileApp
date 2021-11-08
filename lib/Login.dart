@@ -51,11 +51,19 @@ class _LoginState extends State<Login> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 80),
+              padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
               child: Text(
                 "Smart Home",
                 style: TextStyle(fontSize: 28),
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
+              child: Text(
+                "Login",
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
               ),
             ),
             Padding(

@@ -24,61 +24,160 @@ class _HomeState extends State<Home> {
       'what\'s your favorite animal?',
     ];
     return MaterialApp(
-      home: Scaffold(
+        home: Scaffold(
+        appBar: AppBar(
+          title: Text('Smart Home'),
+        ),
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 80),
-              child: Text(
-                "Smart Home",
-                style: TextStyle(fontSize: 28),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(4,4,4,8),
-              //symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Email',
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    }, // Handle your callback.
+                    splashColor: Colors.brown.withOpacity(0.5),
+                    child: Ink(
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/configure.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(4,4,4,8),
-              //symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Full Name',
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    }, // Handle your callback.
+                    splashColor: Colors.brown.withOpacity(0.5),
+                    child: Ink(
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/control.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ]
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Password',
-                ),
-              ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new Login()));
+                      }, // Handle your callback.
+                      splashColor: Colors.brown.withOpacity(0.5),
+                      child: Ink(
+                        height: 180,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/history.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new Login()));
+                      }, // Handle your callback.
+                      splashColor: Colors.brown.withOpacity(0.5),
+                      child: Ink(
+                        height: 180,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/user.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]
             ),
-            ElevatedButton(
-              child: Text('Submit'),
-              onPressed: _submitRegistration,
-            ),
-            TextButton(
-                child: Text('Login'),
-                onPressed:   () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new Login()));
-                }
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new Login()));
+                      }, // Handle your callback.
+                      splashColor: Colors.brown.withOpacity(0.5),
+                      child: Ink(
+                        height: 180,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/hand.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new Login()));
+                      }, // Handle your callback.
+                      splashColor: Colors.brown.withOpacity(0.5),
+                      child: Ink(
+                        height: 180,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/configure.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]
             ),
           ],
-
         ),
       ),
     );

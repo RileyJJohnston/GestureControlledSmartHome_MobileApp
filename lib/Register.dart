@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/question.dart';
 import 'package:flutter_app/Login.dart';
+import 'package:flutter_app/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -33,7 +34,10 @@ class _RegisterState extends State<Register> {
         //duration: Duration(seconds: 5),
       //),
     );
-    Navigator.of(context).pop();
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => new Home()));
     } on FirebaseAuthException catch (e) {
       showDialog(
           context: context,
@@ -58,10 +62,18 @@ class _RegisterState extends State<Register> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 80),
+              padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
               child: Text(
                 "Smart Home",
                 style: TextStyle(fontSize: 28),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
+              child: Text(
+                "Register new user",
+                style: TextStyle(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
             ),
