@@ -18,8 +18,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  var _questionIndex = 0;
-
 
   void _submitRegistration() async{
     try {
@@ -53,10 +51,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'what\'s your fav colour?',
-      'what\'s your favorite animal?',
-    ];
     return MaterialApp(
       home: Scaffold(
         body: Column(

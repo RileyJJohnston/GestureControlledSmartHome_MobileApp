@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/question.dart';
 import 'package:flutter_app/Login.dart';
+import 'package:flutter_app/Configure.dart';
+import 'package:flutter_app/Control.dart';
+import 'package:flutter_app/AddUser.dart';
+import 'package:flutter_app/AddGesture.dart';
+import 'package:flutter_app/History.dart';
+
 
 class Home extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -11,18 +15,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var _questionIndex = 0;
-
-  void _submitRegistration() {
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'what\'s your fav colour?',
-      'what\'s your favorite animal?',
-    ];
     return MaterialApp(
         home: Scaffold(
         appBar: AppBar(
@@ -40,10 +35,20 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Login()));
+                              builder: (context) => new Configure()));
                     }, // Handle your callback.
                     splashColor: Colors.brown.withOpacity(0.5),
                     child: Ink(
+                      child: Center(
+                        child: Text("Configure",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            backgroundColor: Colors.black.withOpacity(0.1),
+                            fontWeight: FontWeight.w700,
+                          )
+                        ),
+                      ),
                       height: 180,
                       width: 180,
                       decoration: BoxDecoration(
@@ -62,10 +67,20 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Login()));
+                              builder: (context) => new Control()));
                     }, // Handle your callback.
                     splashColor: Colors.brown.withOpacity(0.5),
                     child: Ink(
+                      child: Center(
+                        child: Text("Control",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                              backgroundColor: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            )
+                        ),
+                      ),
                       height: 180,
                       width: 180,
                       decoration: BoxDecoration(
@@ -89,10 +104,20 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new Login()));
+                                builder: (context) => new History()));
                       }, // Handle your callback.
                       splashColor: Colors.brown.withOpacity(0.5),
                       child: Ink(
+                        child: Center(
+                          child: Text("History",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                backgroundColor: Colors.black.withOpacity(0.1),
+                                fontWeight: FontWeight.w700,
+                              )
+                          ),
+                        ),
                         height: 180,
                         width: 180,
                         decoration: BoxDecoration(
@@ -111,10 +136,20 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new Login()));
+                                builder: (context) => new AddUser()));
                       }, // Handle your callback.
                       splashColor: Colors.brown.withOpacity(0.5),
                       child: Ink(
+                        child: Center(
+                          child: Text("Add User",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                backgroundColor: Colors.black.withOpacity(0.1),
+                                fontWeight: FontWeight.w700,
+                              )
+                          ),
+                        ),
                         height: 180,
                         width: 180,
                         decoration: BoxDecoration(
@@ -138,10 +173,20 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new Login()));
+                                builder: (context) => new AddGesture()));
                       }, // Handle your callback.
                       splashColor: Colors.brown.withOpacity(0.5),
                       child: Ink(
+                        child: Center(
+                          child: Text("Add Gesture",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                backgroundColor: Colors.black.withOpacity(0.2),
+                                fontWeight: FontWeight.w700,
+                              )
+                          ),
+                        ),
                         height: 180,
                         width: 180,
                         decoration: BoxDecoration(

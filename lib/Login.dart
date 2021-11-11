@@ -17,7 +17,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var _questionIndex = 0;
 
   void _goToRegistrationPage() {
     Navigator.push(
@@ -41,10 +40,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'what\'s your fav colour?',
-      'what\'s your favorite animal?',
-    ];
     Firebase.initializeApp();
     return MaterialApp(
       home: Scaffold(
