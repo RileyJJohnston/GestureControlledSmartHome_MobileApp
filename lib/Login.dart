@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/question.dart';
 import 'package:flutter_app/Register.dart';
 import 'package:flutter_app/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
