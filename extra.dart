@@ -130,4 +130,37 @@ InkWell(
     ),
   ),
 )
+
+
+
+AlertDialog(
+            title: Text("Choose option",style: TextStyle(color: Colors.blue),),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Divider(height: 1,color: Colors.blue,),
+                  ListTile(
+                    onTap: (){
+                      _takePicture(context);
+                    },
+                    title: Text("Gallery"),
+                    leading: Icon(Icons.account_box,color: Colors.blue,),
+                  ),
+
+                  Divider(height: 1,color: Colors.blue,),
+                  ListTile(
+                    onTap: (){
+                      _takePicture(context);
+                    },
+                    title: Text("Camera"),
+                    leading: Icon(Icons.camera,color: Colors.blue,),
+                  ),
+                ],
+              ),
+            ),
+            ),
+
+
+
+
  */
