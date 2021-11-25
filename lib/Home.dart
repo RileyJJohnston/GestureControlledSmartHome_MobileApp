@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Login.dart';
 import 'package:flutter_app/Configure.dart';
-import 'package:flutter_app/Control.dart';
+import 'package:flutter_app/control.dart';
 import 'package:flutter_app/AddUser.dart';
 import 'package:flutter_app/AddGesture.dart';
 import 'package:flutter_app/History.dart';

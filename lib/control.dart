@@ -1,0 +1,107 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
+
+class Control extends StatefulWidget {
+
+
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ControlState();
+  }
+}
+
+class _ControlState extends State<Control> {
+
+  late final MqttServerClient _client;
+  bool _connected = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _connectMqtt();
+  }
+
+  void _connectMqtt() async {
+    // Create the client object
+    _client = MqttServerClient('f51bc650a9c24db18f2b2d13134a6da1.s1.eu.hivemq.cloud', 'flutter_client');
+    _client.secure = true;
+    _client.port = 8883;
+    _client.onConnected = _onConnected;
+
+    // Attempt to connect to the server
+    log("Start connect");
+    try {
+      await _client.connect("testing", "Abc12345");
+    } on Exception catch (e) {
+      log('Client exception - $e');
+      _client.disconnect();
+    }
+
+    if (_client.connectionStatus!.state == MqttConnectionState.connected) {
+      log('Client connected to the broker');
+    } else {
+      log('Client connection failed - disconnecting, state is ${_client.connectionStatus!.state}');
+      _client.disconnect();
+      return;
+    }
+  }
+
+  void _publishMessage(id) async {
+    if (_connected) {
+      final builder = MqttClientPayloadBuilder();
+      builder.addString(id);
+      log('PUBLISH: ' + id);
+      _client.publishMessage('gestures/gesture1', MqttQos.atLeastOnce, builder.payload!);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Not connected...")
+      ));
+    }
+  }
+
+  void _onConnected() async {
+    log("Connected");
+    _connected = true;
+  }
+
+  final List<_ControlObject> _controlObjects = [
+      _ControlObject("lights", "1", Icons.light),
+      _ControlObject("wifi", "2", Icons.wifi_lock)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Control'),
+        ),
+        body: ListView.builder(
+          itemCount: _controlObjects.length,
+          itemBuilder: (BuildContext context, int i) {
+            return Card(
+              child: ListTile(
+                title: Text(_controlObjects[i].name),
+                leading: Icon(_controlObjects[i].icon),
+                onTap: () => _publishMessage(_controlObjects[i].id),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _ControlObject {
+  final String name;
+  final String id;
+  final IconData icon;
+
+  _ControlObject(this.name, this.id, this.icon);
+}
