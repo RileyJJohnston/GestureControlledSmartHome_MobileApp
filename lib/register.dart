@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Login.dart';
-import 'package:flutter_app/Home.dart';
+import 'package:flutter_app/login.dart';
+import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart' as _firebase_storage;
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
 
 import 'dart:io';
 
@@ -15,7 +13,7 @@ String _password = "";
 final _auth = FirebaseAuth.instance;
 
 bool _isImageSelected = false;
-PickedFile? _imageFile = null;
+PickedFile? _imageFile;
 
 //FirebaseStorage _firebase_storage = FirebaseStorage.instance;
 

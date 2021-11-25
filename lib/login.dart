@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Register.dart';
-import 'package:flutter_app/Home.dart';
+import 'package:flutter_app/register.dart';
+import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 

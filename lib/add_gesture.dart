@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Login.dart';
+import 'package:flutter_app/login.dart';
 
-class Configure extends StatefulWidget {
+class AddGesture extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ConfigureState();
+    return _AddGestureState();
   }
 }
 
-class _ConfigureState extends State<Configure> {
+class _AddGestureState extends State<AddGesture> {
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Configure'),
+          title: Text('Add Gesture'),
         ),
         body: Column(
           children: <Widget>[
