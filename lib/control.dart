@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -53,14 +54,16 @@ class _ControlState extends State<Control> {
 
   void _publishMessage(id) async {
     if (_connected) {
+      const String topic = 'gestures/gesture1';
       final builder = MqttClientPayloadBuilder();
       builder.addString(id);
       log('PUBLISH: ' + id);
-      _client.publishMessage('gestures/gesture1', MqttQos.atLeastOnce, builder.payload!);
+      _client.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
+
+      // Show a message saying that it was posted
+      showDialog(context: context, builder: (context) => showAlertDialog("Published", "Topic: $topic\nPayload: $id", "Okay", context));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Not connected...")
-      ));
+      showDialog(context: context, builder: (context) => showAlertDialog("Not connected", "Has not connected to MQTT broker yet", "Continue", context));
     }
   }
 
@@ -80,6 +83,10 @@ class _ControlState extends State<Control> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Control'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          )
         ),
         body: ListView.builder(
           itemCount: _controlObjects.length,
