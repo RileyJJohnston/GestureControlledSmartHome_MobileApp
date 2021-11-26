@@ -7,8 +7,6 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 class Control extends StatefulWidget {
 
-
-
   @override
   State<StatefulWidget> createState() {
     return _ControlState();
@@ -73,8 +71,11 @@ class _ControlState extends State<Control> {
   }
 
   final List<_ControlObject> _controlObjects = [
-      _ControlObject("lights", "1", Icons.light),
-      _ControlObject("wifi", "2", Icons.wifi_lock)
+    _ControlObject("Lights", "1", Icons.light),
+    _ControlObject("Door", "2", Icons.sensor_door),
+    _ControlObject("Blinds", "3", Icons.sensor_window),
+    _ControlObject("Vacuum", "4", Icons.stop_circle),
+    _ControlObject("Make Coffee", "5", Icons.coffee),
   ];
 
   @override
