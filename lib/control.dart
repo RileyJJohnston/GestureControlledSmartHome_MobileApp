@@ -1,9 +1,14 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:collection/collection.dart';
+
 
 class Control extends StatefulWidget {
 
@@ -70,6 +75,32 @@ class _ControlState extends State<Control> {
     _connected = true;
   }
 
+  Future<List<_ControlObject>> _getControlObjects() async {
+    final controlObjects = List<_ControlObject>.empty(growable: true);
+
+    // Connect to the database and get the correct path
+    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+    final reference = db.reference().child('gestures/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}');
+    final snapshot = await reference.get();
+
+    // Create the control objects from the list
+    if (snapshot.value is List) {
+      (snapshot.value as List).forEachIndexed((index, gesture) =>
+        controlObjects.add(_ControlObject(gesture['name'].toString(), index.toString(), gestureIconMap[gesture['icon'].toString()] ?? Icons.light))
+      );
+    }
+
+    return controlObjects;
+  }
+
+  final gestureIconMap = {
+    "Light": Icons.light,
+    "Door": Icons.sensor_door,
+    "Window": Icons.sensor_window,
+    "Circle": Icons.stop_circle,
+    "Food": Icons.coffee
+  };
+
   final List<_ControlObject> _controlObjects = [
     _ControlObject("Lights", "1", Icons.light),
     _ControlObject("Door", "2", Icons.sensor_door),
@@ -89,18 +120,30 @@ class _ControlState extends State<Control> {
             onPressed: () => Navigator.of(context).pop(),
           )
         ),
-        body: ListView.builder(
-          itemCount: _controlObjects.length,
-          itemBuilder: (BuildContext context, int i) {
-            return Card(
-              child: ListTile(
-                title: Text(_controlObjects[i].name),
-                leading: Icon(_controlObjects[i].icon),
-                onTap: () => _publishMessage(_controlObjects[i].id),
-              ),
-            );
+        body: FutureBuilder<List<_ControlObject>>(
+          future: _getControlObjects(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text("Error ${snapshot.error}"),);
+            } else if (snapshot.hasData) {
+              final controlObjects = snapshot.data ?? List.empty();
+              return ListView.builder(
+                itemCount: controlObjects.length,
+                itemBuilder: (BuildContext context, int i) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(controlObjects[i].name),
+                      leading: Icon(controlObjects[i].icon),
+                      onTap: () => _publishMessage(controlObjects[i].id),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(child: Text("Loading..."),);
+            }
           },
-        ),
+        )
       ),
     );
   }

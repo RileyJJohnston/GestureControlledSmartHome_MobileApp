@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_app/register.dart';
@@ -49,6 +51,7 @@ class _LoginState extends State<Login> {
         if (snapshot.connectionState == ConnectionState.done) {
           // Check if the user has already logged in, if so replace with main page
           if (FirebaseAuth.instance.currentUser != null) {
+            log(FirebaseAuth.instance.currentUser.toString());
             SchedulerBinding.instance!.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => Home()));
