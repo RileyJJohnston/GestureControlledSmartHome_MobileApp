@@ -6,6 +6,7 @@ import 'package:flutter_app/register.dart';
 import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_app/utils.dart';
 
 String _email = "";
 String _password = "";
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
           }
         }
 
-        return _loadingPage();
+        return loadingPage();
       }
     );
   }
@@ -71,17 +72,6 @@ class _LoginState extends State<Login> {
       home: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: Text(error?.toString() ?? "Unknown error")
-      )
-    );
-  }
-
-  Widget _loadingPage() {
-    return const MaterialApp(
-      home: Padding(
-        padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.blueAccent,
-        ),
       )
     );
   }

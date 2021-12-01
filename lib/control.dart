@@ -1,13 +1,11 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:collection/collection.dart';
+
+import 'firebase_utils.dart';
 
 
 class Control extends StatefulWidget {
@@ -75,40 +73,6 @@ class _ControlState extends State<Control> {
     _connected = true;
   }
 
-  Future<List<_ControlObject>> _getControlObjects() async {
-    final controlObjects = List<_ControlObject>.empty(growable: true);
-
-    // Connect to the database and get the correct path
-    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
-    final reference = db.reference().child('gestures/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}');
-    final snapshot = await reference.get();
-
-    // Create the control objects from the list
-    if (snapshot.value is List) {
-      (snapshot.value as List).forEachIndexed((index, gesture) =>
-        controlObjects.add(_ControlObject(gesture['name'].toString(), index.toString(), gestureIconMap[gesture['icon'].toString()] ?? Icons.light))
-      );
-    }
-
-    return controlObjects;
-  }
-
-  final gestureIconMap = {
-    "Light": Icons.light,
-    "Door": Icons.sensor_door,
-    "Window": Icons.sensor_window,
-    "Circle": Icons.stop_circle,
-    "Food": Icons.coffee
-  };
-
-  final List<_ControlObject> _controlObjects = [
-    _ControlObject("Lights", "1", Icons.light),
-    _ControlObject("Door", "2", Icons.sensor_door),
-    _ControlObject("Blinds", "3", Icons.sensor_window),
-    _ControlObject("Vacuum", "4", Icons.stop_circle),
-    _ControlObject("Make Coffee", "5", Icons.coffee),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -120,8 +84,8 @@ class _ControlState extends State<Control> {
             onPressed: () => Navigator.of(context).pop(),
           )
         ),
-        body: FutureBuilder<List<_ControlObject>>(
-          future: _getControlObjects(),
+        body: FutureBuilder<List<ControlObject>>(
+          future: getControlObjects(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("Error ${snapshot.error}"),);
@@ -140,7 +104,7 @@ class _ControlState extends State<Control> {
                 },
               );
             } else {
-              return const Center(child: Text("Loading..."),);
+              return loadingPage();
             }
           },
         )
@@ -149,10 +113,4 @@ class _ControlState extends State<Control> {
   }
 }
 
-class _ControlObject {
-  final String name;
-  final String id;
-  final IconData icon;
 
-  _ControlObject(this.name, this.id, this.icon);
-}

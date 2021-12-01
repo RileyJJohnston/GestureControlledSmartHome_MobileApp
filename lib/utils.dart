@@ -18,3 +18,7 @@ AlertDialog showAlertDialog(String title, String message, String approve, BuildC
     ],
   );
 }
+
+Widget loadingPage() {
+  return const Center(child: Text("Loading..."),);
+}
