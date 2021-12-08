@@ -85,7 +85,7 @@ class _ControlState extends State<Control> {
           )
         ),
         body: FutureBuilder<List<ControlObject>>(
-          future: getControlObjects(),
+          future: getControlObjects("gestures"),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("Error ${snapshot.error}"),);
