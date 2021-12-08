@@ -5,13 +5,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as _firebase_storage;
 import 'dart:io';
+import 'package:flutter_app/firebase_utils.dart';
+
 
 String _gestureName = "";
 String _password = "";
-String dropDownValue = 'One';
-//var items = ['1','2','3','4','5','6'];
 bool _isImageSelected = false;
 PickedFile? _imageFile;
+List<String>_actuators = [];
+String dropDownValue = 'None';
 
 Future uploadImageToFirebase(BuildContext context) async {
   String _fileName = "gesture_" + _gestureName.replaceAll('.', '').replaceAll(' ', '');
@@ -63,9 +65,30 @@ class _AddGestureState extends State<AddGesture> {
 
   void _submit() async {
     //TODO: Add photo to Firebase and add the new gesture to the realtime database
+    uploadImageToFirebase(context);
   }
+
+  void _getActuators() async {
+    print("##################");
+    var list = await getActuators();
+    _actuators.clear();
+    _actuators.add("None");
+    if (list.length > 0) {
+      dropDownValue = "None";
+      for (var i = 0; i < list.length; i++) {
+        _actuators.add(list[i].name);
+      }
+    }
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
+    //var items_control_type = await getControlObjects();
+    //for (var i=0; i<getControlObjects.length; i++){
+    //print(items_control_type.then((value) => null));
+    _getActuators();
+    //}
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -240,10 +263,10 @@ class _AddGestureState extends State<AddGesture> {
               ),
             ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                     child: Text('Select Actuator', style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -268,7 +291,7 @@ class _AddGestureState extends State<AddGesture> {
                           dropDownValue = newValue!;
                         });
                       },
-                      items: <String>['One', 'Two', 'Free', 'Four']
+                      items: _actuators
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -279,10 +302,12 @@ class _AddGestureState extends State<AddGesture> {
                   ),
                 ],
             ),
-
-            ElevatedButton(
-              child: Text('Submit'),
-              onPressed: _submit,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: ElevatedButton(
+                    child: Text('Submit'),
+                    onPressed: _submit,
+              ),
             ),
           ],
         ),

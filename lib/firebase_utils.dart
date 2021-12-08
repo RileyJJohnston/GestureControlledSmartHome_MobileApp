@@ -8,12 +8,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<List<ControlObject>> getControlObjects() async {
+Future<List<ControlObject>> getControlObjects(String databaseName) async {
   final controlObjects = List<ControlObject>.empty(growable: true);
 
   // Connect to the database and get the correct path
   FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
-  final reference = db.reference().child('gestures/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}');
+  final reference = db.reference().child('/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/' + databaseName);
   final snapshot = await reference.get();
 
   // Create the control objects from the list
@@ -31,13 +31,13 @@ Future<List<ControlObject>> getControlObjects() async {
   return controlObjects;
 }
 
-Future<bool> saveControlObjects(List<ControlObject> controlObjects) async {
+Future<bool> saveControlObjects(List<ControlObject> controlObjects, String databaseName) async {
   try {
     // Connect to the database and get the correct path
     FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
     final reference = db.reference().child(
-        'gestures/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
-            '.', '')}');
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+            '.', '')}/' + databaseName);
 
     // Update the values in the database for the user
     for (var i = 0; i < controlObjects.length; i++) {
@@ -54,6 +54,18 @@ Future<bool> saveControlObjects(List<ControlObject> controlObjects) async {
     return false;
   }
 }
+
+Future<List<ControlObject>> getActuators() async {
+  return getControlObjects("actuators");
+}
+
+Future<List<ControlObject>> getGestures() async {
+  return getControlObjects("gestures");
+}
+
+//Future<bool> saveControlObjects(List<ControlObject> controlObjects, String databaseName) async {
+//
+//  }
 
 final gestureIconMap = {
   "Light": Icons.light,
