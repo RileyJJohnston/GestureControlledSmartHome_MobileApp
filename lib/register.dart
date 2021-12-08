@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/question.dart';
-import 'package:flutter_app/Login.dart';
-import 'package:flutter_app/Home.dart';
+import 'package:flutter_app/login.dart';
+import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart' as _firebase_storage;
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
 
-import 'dart:ffi';
 import 'dart:io';
 
 String _email = "";
@@ -18,7 +13,7 @@ String _password = "";
 final _auth = FirebaseAuth.instance;
 
 bool _isImageSelected = false;
-PickedFile? _imageFile = null;
+PickedFile? _imageFile;
 
 //FirebaseStorage _firebase_storage = FirebaseStorage.instance;
 
@@ -30,7 +25,7 @@ Future uploadImageToFirebase(BuildContext context) async {
 
   print(ref);
   final metadata = _firebase_storage.SettableMetadata(
-      contentType: 'image/jpeg',);
+    contentType: 'image/jpeg',);
 
   _firebase_storage.UploadTask uploadTask = ref.putFile(
       File(_imageFile!.path), metadata);
@@ -83,8 +78,8 @@ class _RegisterState extends State<Register> {
           duration: Duration(seconds: 5),
         ),
         //duration: Duration(seconds: 5),
-      //),
-    );
+        //),
+      );
       uploadImageToFirebase(context);
       Navigator.push(
           context,
@@ -125,10 +120,10 @@ class _RegisterState extends State<Register> {
                 textAlign: TextAlign.center,
               ),
             ),
-                Container(
-                  child: (_isImageSelected==false || _imageFile == null) ?
-                      Column(
-                          children: <Widget>[
+            Container(
+              child: (_isImageSelected==false || _imageFile == null) ?
+              Column(
+                children: <Widget>[
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -174,7 +169,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ]
                   ),
-                        Row(
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
@@ -221,34 +216,34 @@ class _RegisterState extends State<Register> {
                         ),
                       ]
                   ),
-                  ],
-                ):
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container (
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                            child: Image.file( File(_imageFile!.path)),
-                          ),
-                          width: 160,
-                          height: 160,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                          child: TextButton(
-                              child: Text('Retake'),
-                              onPressed:   () {
-                                setState(() {
-                                  //_imageFile = null;
-                                  _isImageSelected = false;
-                                });
-                              }
-                          ),
-                        ),
-                      ]
-                  ),
-                ),
+                ],
+              ):
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container (
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                        child: Image.file( File(_imageFile!.path)),
+                      ),
+                      width: 160,
+                      height: 160,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                      child: TextButton(
+                          child: Text('Retake'),
+                          onPressed:   () {
+                            setState(() {
+                              //_imageFile = null;
+                              _isImageSelected = false;
+                            });
+                          }
+                      ),
+                    ),
+                  ]
+              ),
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(4,32,4,8),
               child: TextFormField(
@@ -297,13 +292,13 @@ class _RegisterState extends State<Register> {
               onPressed: _submitRegistration,
             ),
             TextButton(
-              child: Text('Login'),
-              onPressed:   () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new Login()));
-              }
+                child: Text('Login'),
+                onPressed:   () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new Login()));
+                }
             ),
           ],
 
