@@ -3,8 +3,8 @@ import 'package:flutter_app/login.dart';
 import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:firebase_storage/firebase_storage.dart' as _firebase_storage;
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as _firebase_storage;
 
 import 'dart:io';
 
@@ -16,7 +16,7 @@ bool _isImageSelected = false;
 PickedFile? _imageFile;
 
 Future uploadImageToFirebase(BuildContext context) async {
-  String _fileName = "profile_" + _email; //Path.basename(_imageFile!.path);
+  String _fileName = "profile_" + _email.replaceAll('.', '');
   _firebase_storage.Reference ref =
   _firebase_storage.FirebaseStorage.instance
       .ref().child('profilePictures').child('/$_fileName');
@@ -72,7 +72,7 @@ class _RegisterState extends State<Register> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-              'Sucessfully Register.You Can Login Now'),
+              'Registration Sucessful.  You Can Login Now'),
           duration: Duration(seconds: 5),
         ),
         //duration: Duration(seconds: 5),
