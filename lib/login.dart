@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_app/question.dart';
-import 'package:flutter_app/Register.dart';
-import 'package:flutter_app/Home.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_app/register.dart';
+import 'package:flutter_app/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_app/utils.dart';
 
 String _email = "";
 String _password = "";
@@ -18,10 +21,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  void _goToRegistrationPage() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Register()));
-  }
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   void _login() async {
     try {
@@ -40,21 +40,57 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return _errorPage(snapshot.error);
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          // Check if the user has already logged in, if so replace with main page
+          if (FirebaseAuth.instance.currentUser != null) {
+            log(FirebaseAuth.instance.currentUser.toString());
+            SchedulerBinding.instance!.addPostFrameCallback((_) {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Home()));
+            });
+          } else {
+            return _loginPage();
+          }
+        }
+
+        return loadingPage();
+      }
+    );
+  }
+
+  Widget _errorPage(Object? error) {
+    return MaterialApp(
+      home: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        child: Text(error?.toString() ?? "Unknown error")
+      )
+    );
+  }
+
+  Widget _loginPage() {
     return MaterialApp(
       home: Scaffold(
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(8, 80, 8, 0),
               child: Text(
                 "Smart Home",
                 style: TextStyle(fontSize: 28),
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(8, 8, 8, 80),
               child: Text(
                 "Login",
                 style: TextStyle(fontSize: 14),
@@ -62,14 +98,14 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   _email = value;
                 },
                 textAlign: TextAlign.left,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   //decoration: kTextFieldDecoration.copyWith(
                   hintText: 'Email',
                   prefixIcon: Icon(
@@ -84,7 +120,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
                 obscureText: true,
                 validator: (value) {
@@ -95,8 +131,9 @@ class _LoginState extends State<Login> {
                 onChanged: (value) {
                   _password = value;
                 },
+                onFieldSubmitted: (password) => _login(),
                 textAlign: TextAlign.left,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: 'Password',
                     prefixIcon: Icon(
                       Icons.lock,
@@ -105,7 +142,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             ElevatedButton(
-              child: Text('Login'),
+              child: const Text('Login'),
               onPressed: _login,
             ),
             TextButton(

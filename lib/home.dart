@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Login.dart';
-import 'package:flutter_app/Configure.dart';
-import 'package:flutter_app/Control.dart';
-import 'package:flutter_app/AddUser.dart';
-import 'package:flutter_app/AddGesture.dart';
-import 'package:flutter_app/History.dart';
+import 'package:flutter_app/login.dart';
+import 'package:flutter_app/configure.dart';
+import 'package:flutter_app/control.dart';
+import 'package:flutter_app/add_user.dart';
+import 'package:flutter_app/add_gesture.dart';
+import 'package:flutter_app/history.dart';
 
 
 class Home extends StatefulWidget {
@@ -22,6 +23,22 @@ class _HomeState extends State<Home> {
         home: Scaffold(
         appBar: AppBar(
           title: Text('Smart Home'),
+          actions: [
+            PopupMenuButton(
+              onSelected: (value) {
+                if (value == 1) {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pop(MaterialPageRoute(builder: (context) => Login()));
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  child: Text("Logout"),
+                  value: 1,
+                ),
+              ]
+            )
+          ],
         ),
         body: Column(
           children: <Widget>[
