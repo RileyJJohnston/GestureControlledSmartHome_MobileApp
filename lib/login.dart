@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: const Text("Ops! Login Failed"), content: Text('${e.message}')));
+              title: Text("Whoops! Login Failed"), content: Text('${e.message}')));
     }
   }
 
