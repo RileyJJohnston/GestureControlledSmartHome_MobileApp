@@ -41,7 +41,7 @@ class _ConfigureState extends State<Configure> {
                 }
 
                 // Push to the database
-                saveControlObjects(_controlObjects).then((value) => {
+                saveControlObjects(_controlObjects, "actuators").then((value) => {
                   if (value) {
                     // Saved successfully, close the page
                     Navigator.of(context).pop()
@@ -55,7 +55,7 @@ class _ConfigureState extends State<Configure> {
           ],
         ),
         body: FutureBuilder<List<ControlObject>>(
-          future: getControlObjects(),
+          future: getActuators(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("Error ${snapshot.error}"),);
