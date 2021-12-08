@@ -20,10 +20,8 @@ final _auth = FirebaseAuth.instance;
 bool _isImageSelected = false;
 PickedFile? _imageFile = null;
 
-//FirebaseStorage _firebase_storage = FirebaseStorage.instance;
-
 Future uploadImageToFirebase(BuildContext context) async {
-  String _fileName = "test"; //Path.basename(_imageFile!.path);
+  String _fileName = "profile_" + _email; //Path.basename(_imageFile!.path);
   _firebase_storage.Reference ref =
   _firebase_storage.FirebaseStorage.instance
       .ref().child('profilePictures').child('/$_fileName');
