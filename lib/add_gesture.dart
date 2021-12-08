@@ -13,7 +13,7 @@ String _password = "";
 bool _isImageSelected = false;
 PickedFile? _imageFile;
 List<String>_actuators = [];
-String dropDownValue = 'None';
+String _dropDownValue = 'None';
 
 Future uploadImageToFirebase(BuildContext context) async {
   String _fileName = "gesture_" + _gestureName.replaceAll('.', '').replaceAll(' ', '');
@@ -65,7 +65,46 @@ class _AddGestureState extends State<AddGesture> {
 
   void _submit() async {
     //TODO: Add photo to Firebase and add the new gesture to the realtime database
+    if (_gestureName == ""){
+      showDialog(
+          context: context,
+          builder: (ctx) =>
+              AlertDialog(
+                  title:
+                  Text('Failed to Add Gesture'),
+                  content: Text('Please enter a name for the gesture then try again.')
+              )
+      );
+      return;
+    }
+    if (_imageFile == null){
+      showDialog(
+          context: context,
+          builder: (ctx) =>
+              AlertDialog(
+                  title:
+                  Text('Failed to Add Gesture'),
+                  content: Text('Please select a photo then try again.')
+              )
+      );
+      return;
+    }
+    addGesture(_gestureName, _dropDownValue);
     uploadImageToFirebase(context);
+    setState(() {
+    _gestureName = "";
+    _dropDownValue = "None";
+    _imageFile = null;
+    });
+    showDialog(
+        context: context,
+        builder: (ctx) =>
+            AlertDialog(
+                title:
+                Text('Succesfully Added New Gesture'),
+                content: Text('The new gesture may now be performed to control the associated actuator.')
+            )
+    );
   }
 
   void _getActuators() async {
@@ -74,7 +113,7 @@ class _AddGestureState extends State<AddGesture> {
     _actuators.clear();
     _actuators.add("None");
     if (list.length > 0) {
-      dropDownValue = "None";
+      //_dropDownValue = "None";
       for (var i = 0; i < list.length; i++) {
         _actuators.add(list[i].name);
       }
@@ -277,7 +316,7 @@ class _AddGestureState extends State<AddGesture> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                       child: DropdownButton<String>(
-                      value: dropDownValue,
+                      value: _dropDownValue,
                       icon: const Icon(Icons.keyboard_arrow_down),
                       iconSize: 24,
                       elevation: 16,
@@ -288,8 +327,9 @@ class _AddGestureState extends State<AddGesture> {
                       ),
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropDownValue = newValue!;
+                          _dropDownValue = newValue!;
                         });
+                        _dropDownValue = newValue!;
                       },
                       items: _actuators
                           .map<DropdownMenuItem<String>>((String value) {

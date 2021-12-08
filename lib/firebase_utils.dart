@@ -63,6 +63,31 @@ Future<List<ControlObject>> getGestures() async {
   return getControlObjects("gestures");
 }
 
+Future<bool> addGesture(String gestureName, String actuatorName) async {
+  try {
+    // Connect to the database and get the correct path
+    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+    final reference = db.reference().child(
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+            '.', '')}/gestures');
+
+    var list = await getControlObjects("gestures");
+    var index = list.length;
+    // Update the values in the database for the user
+      reference.child(index.toString()).child("gestureName").set(gestureName);
+      reference.child(index.toString()).child("associatedActuator").set(actuatorName);
+      //reference.child(index.toString()).child("name").set(name);
+
+    // Push the changes
+    reference.push();
+
+    return true;
+  } on Exception catch (_, e) {
+    log(e.toString());
+    return false;
+  }
+}
+
 //Future<bool> saveControlObjects(List<ControlObject> controlObjects, String databaseName) async {
 //
 //  }
