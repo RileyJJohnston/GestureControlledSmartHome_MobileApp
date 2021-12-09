@@ -13,22 +13,60 @@ Future<List<ControlObject>> getControlObjects(String databaseName) async {
 
   // Connect to the database and get the correct path
   FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
-  final reference = db.reference().child('/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/' + databaseName);
+  final reference = db.reference().child(
+      '/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+          '.', '')}/' + databaseName);
   final snapshot = await reference.get();
 
   // Create the control objects from the list
   if (snapshot.value is List) {
-    (snapshot.value as List).forEachIndexed((index, gesture) =>
-        controlObjects.add(ControlObject(
-            gesture['name'].toString(),
-            index.toString(),
-            gestureIconMap[gesture['icon'].toString()] ?? Icons.light,
-            gesture['ip'] ?? ""
-        ))
-    );
+    if (databaseName == "actuators") {
+      (snapshot.value as List).forEachIndexed((index, gesture) =>
+          controlObjects.add(ControlObject(
+              gesture['name'].toString(),
+              index.toString(),
+              gestureIconMap[gesture['icon'].toString()] ?? Icons.light,
+              gesture['ip'] ?? ""
+          ))
+      );
+    } else if (databaseName == "gestures") {
+      (snapshot.value as List).forEachIndexed((index, gesture) =>
+          controlObjects.add(ControlObject(
+              gesture['associatedActuator'].toString(),
+              index.toString(),
+              gestureIconMap[gesture['icon'].toString()] ?? Icons.light,
+              gesture['gestureName'] ?? ""
+          ))
+      );
+    }
   }
-
   return controlObjects;
+}
+
+Future<List<GestureObject>> getGestureObjects(String databaseName) async {
+  final gestureObjects = List<GestureObject>.empty(growable: true);
+
+  // Connect to the database and get the correct path
+  FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+  final reference = db.reference().child(
+      '/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+          '.', '')}/' + databaseName);
+  final snapshot = await reference.get();
+  print((snapshot.value as List)[1]);
+  // Create the Gesture objects from the list
+  if (snapshot.value is List) {
+      (snapshot.value as List).forEachIndexed((index, gesture) {
+          print('/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+              '.', '')}/' + databaseName);
+          gestureObjects.add(GestureObject(
+              gesture['gestureName'].toString(),
+              index.toString(),
+              gestureIconMap[gesture['icon'].toString()] ?? Icons.light,
+              gesture['associatedActuator'] ?? ""
+          ));}
+      );
+  }
+  return gestureObjects;
 }
 
 Future<bool> saveControlObjects(List<ControlObject> controlObjects, String databaseName) async {
@@ -58,8 +96,8 @@ Future<List<ControlObject>> getActuators() async {
   return getControlObjects("actuators");
 }
 
-Future<List<ControlObject>> getGestures() async {
-  return getControlObjects("gestures");
+Future<List<GestureObject>> getGestures() async {
+  return getGestureObjects("gestures");
 }
 
 Future<bool> addGesture(String gestureName, String actuatorName) async {
@@ -106,4 +144,13 @@ class ControlObject {
   String ip;
 
   ControlObject(this.name, this.id, this.icon, this.ip);
+}
+
+class GestureObject {
+  String name;
+  String id;
+  IconData icon;
+  String associatedActuator;
+
+  GestureObject(this.name, this.id, this.icon, this.associatedActuator);
 }

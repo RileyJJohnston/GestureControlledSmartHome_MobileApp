@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/firebase_utils.dart';
 import 'package:flutter_app/utils.dart';
 
+
 class Configure extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,9 +16,10 @@ class _ConfigureState extends State<Configure> {
 
   late final Future<List<ControlObject>> _getControjObjectFuture;
   late List<ControlObject> _controlObjects;
+  List<String> _associatedGestures = [];
+  List<String> _dropDownValue = ["None","None","None","None","None","None","None","None"];
 
   bool _firstLoad = true;
-
   @override
   void initState() {
     super.initState();
@@ -25,8 +27,24 @@ class _ConfigureState extends State<Configure> {
     _getControjObjectFuture = getActuators();
   }
 
+  void _getGestures() async {
+    print("##################");
+    var list = await getGestures();
+    _associatedGestures.clear();
+    _associatedGestures.add("None");
+    if (list.length > 0) {
+      //_dropDownValue = "None";
+      for (var i = 0; i < list.length; i++) {
+        _associatedGestures.add(list[i].name);
+        print(list[i].name);
+      }
+    }
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getGestures();
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
@@ -107,6 +125,47 @@ class _ConfigureState extends State<Configure> {
                             TextField(
                               decoration: const InputDecoration(labelText: "IP"),
                               controller: _textControllerIPList[i],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 1, vertical: 16),
+                                  child: Text('Select Gesture', style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    backgroundColor: null,
+                                    fontWeight: FontWeight.w300,
+                                  )),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                                  child: DropdownButton<String>(
+                                    value: _dropDownValue[i],
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    iconSize: 40,
+                                    elevation: 16,
+                                    style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.black,
+                                    ),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _dropDownValue[i] = newValue!;
+                                      });
+                                      _dropDownValue[i] = newValue!;
+                                    },
+                                    items: _associatedGestures
+                                        .map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
