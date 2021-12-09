@@ -36,8 +36,7 @@ Future<bool> saveControlObjects(List<ControlObject> controlObjects, String datab
     // Connect to the database and get the correct path
     FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
     final reference = db.reference().child(
-        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
-            '.', '')}/' + databaseName);
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/' + databaseName);
 
     // Update the values in the database for the user
     for (var i = 0; i < controlObjects.length; i++) {

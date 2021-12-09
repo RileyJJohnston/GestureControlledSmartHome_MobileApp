@@ -22,3 +22,7 @@ AlertDialog showAlertDialog(String title, String message, String approve, BuildC
 Widget loadingPage() {
   return const Center(child: Text("Loading..."),);
 }
+
+Widget errorPage(String errorMsg) {
+  return Center(child: Text("Error: " + errorMsg));
+}
