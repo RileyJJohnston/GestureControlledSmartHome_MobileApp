@@ -69,6 +69,15 @@ Future<List<GestureObject>> getGestureObjects(String databaseName) async {
   return gestureObjects;
 }
 
+Future<String> getAssociatedGesture(List<GestureObject> gestureList, String actuatorName) async {
+  for (int i=0; i<gestureList.length; i++) {
+    if (gestureList[i].associatedActuator == actuatorName){
+      return gestureList[i].name;
+    }
+  }
+  return "None";
+}
+
 Future<bool> saveControlObjects(List<ControlObject> controlObjects, String databaseName) async {
   try {
     // Connect to the database and get the correct path
@@ -82,6 +91,32 @@ Future<bool> saveControlObjects(List<ControlObject> controlObjects, String datab
       reference.child(i.toString()).child("ip").set(controlObjects[i].ip);
     }
 
+    // Push the changes
+    reference.push();
+
+    return true;
+  } on Exception catch (_, e) {
+    log(e.toString());
+    return false;
+  }
+}
+
+Future<bool> setAssociatedActuator(List<Map<String,String>> _associatedActuators) async {
+  try {
+    // Connect to the database and get the correct path
+    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+    final reference = db.reference().child(
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/gestures');
+
+
+    // Update the values in the database for the user
+    for (var i = 0; i < _associatedActuators.length; i++) {
+      for (var j = 0; j < _associatedActuators.length; j++) {
+        if (reference.child(i.toString()).child("gestureName") == _associatedActuators[j][reference.child(i.toString()).child("gesture")]){
+          reference.child(i.toString()).child("gestureName").set(_associatedActuators[j][reference.child(i.toString()).child("actuatorName")]);
+        }
+      }
+    }
     // Push the changes
     reference.push();
 

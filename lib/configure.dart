@@ -27,8 +27,16 @@ class _ConfigureState extends State<Configure> {
     _getControjObjectFuture = getActuators();
   }
 
+  void _getDropDownValues() async {
+    var list = await getGestures();
+    List<ControlObject> controlObjects = await _getControjObjectFuture;
+    var length = controlObjects.length;
+    for (var i = 0; i < length; i++) {
+      _dropDownValue[i] = await getAssociatedGesture(list, controlObjects[i].name);
+    }
+  }
+
   void _getGestures() async {
-    print("##################");
     var list = await getGestures();
     _associatedGestures.clear();
     _associatedGestures.add("None");
@@ -45,6 +53,8 @@ class _ConfigureState extends State<Configure> {
   @override
   Widget build(BuildContext context) {
     _getGestures();
+    _getDropDownValues();
+    //TODO: Set the default dropdown value for _associated gestures to the gesture names associated with the actuator - will need to fetch gesture with specific associated actuator.
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
@@ -57,6 +67,19 @@ class _ConfigureState extends State<Configure> {
               PopupMenuButton(
                 onSelected: (value) {
                   if (value == 1) {
+                    //TODO: Complete the following code which sets the associated gesture in the database to that specified by the dropdown boxes in the configure page
+                    List<Map<String,String>> _associatedActuators = [];
+                    for (var i = 0; i < _controlObjects.length; i++) {
+                      Map<String,String> temp_entry = new Map();
+                      temp_entry['actuator'] = _textControllerNameList[i].text;
+                      temp_entry['gesture'] = _associatedGestures[i];
+                      _associatedActuators.add(temp_entry);
+                      print('###');
+                      print(temp_entry['actuator']);
+                      print(temp_entry['gesture']);
+                    }
+                    //updateAssociatedActuators();
+                    setAssociatedActuator(_associatedActuators);
                     // Save the new values
                     for (var i = 0; i < _controlObjects.length; i++) {
                       _controlObjects[i].name = _textControllerNameList[i].text;
