@@ -31,8 +31,15 @@ class _ConfigureState extends State<Configure> {
     var list = await getGestures();
     List<ControlObject> controlObjects = await _getControjObjectFuture;
     var length = controlObjects.length;
+    bool initialRun = false;
+    if (_dropDownValue[1] == "None"){
+      initialRun = true;
+    }
     for (var i = 0; i < length; i++) {
       _dropDownValue[i] = await getAssociatedGesture(list, controlObjects[i].name);
+    }
+    if (initialRun){
+      setState(() {});
     }
   }
 
