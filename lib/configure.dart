@@ -135,7 +135,6 @@ class _ConfigureState extends State<Configure> {
                   _firstLoad = false;
                 }
                 //TODO: make each list item deletable (e.g. select trash icon in top right corner of item)
-                //TODO: Set appropriate icon for each actuator type
                 return ListView.builder(
                   itemCount: _controlObjects.length,
                   itemBuilder: (BuildContext context, int i) {
@@ -143,9 +142,56 @@ class _ConfigureState extends State<Configure> {
                       child: ListTile(
                         title: Column(
                           children: [
-                            TextField(
-                              decoration: const InputDecoration(labelText: "Name"),
-                              controller: _textControllerNameList[i],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Expanded(
+                                  flex:7,
+                                  child:
+                                  TextField(
+                                  decoration: const InputDecoration(labelText: "Name"),
+                                  controller: _textControllerNameList[i],
+                                ),
+                                ),
+                                Expanded(
+                                  flex:1,
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(0,0,0,8),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      tooltip: 'Delete this actuator',
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (ctx) =>
+                                                AlertDialog(
+                                                    title:
+                                                    Text('Are you sure you want to remove this actuator?'),
+                                                    actions: <Widget>[
+                                                      FlatButton(child: Text("Yes"),onPressed: () {
+                                                        setState(() {
+                                                          _controlObjects.removeAt(i);
+                                                          removeActuator(i);
+                                                          Navigator.of(context, rootNavigator: true).pop();
+                                                        });
+                                                      }
+                                                    ),
+                                                      FlatButton(child: Text("No"),onPressed: () {
+                                                        Navigator.of(context, rootNavigator: true).pop();
+                                                        //Navigator.pop(context);
+                                                      }),
+                                                  ],)
+                                          //content: Text('Are you sure you wish to delete this actuator?')
+                                                );
+                                        //);
+                                        //setState(() {
+                                        //  print("deleteMe");
+                                        //});
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             TextField(
                               decoration: const InputDecoration(labelText: "IP"),

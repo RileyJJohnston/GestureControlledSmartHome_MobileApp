@@ -101,6 +101,23 @@ Future<bool> saveControlObjects(List<ControlObject> controlObjects, String datab
   }
 }
 
+Future<bool> removeActuator(int index) async{
+  try {
+    // Connect to the database and get the correct path
+    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+    final reference = db.reference().child(
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/actuators');
+
+    reference.child(index.toString()).remove();
+    //print(reference.child(index.toString()));
+
+    return true;
+  } on Exception catch (_, e) {
+    log(e.toString());
+    return false;
+  }
+}
+
 Future<bool> setAssociatedActuator(List<Map<String,String>> _associatedActuators) async {
   try {
     // Connect to the database and get the correct path
