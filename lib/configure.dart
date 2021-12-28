@@ -61,7 +61,6 @@ class _ConfigureState extends State<Configure> {
   Widget build(BuildContext context) {
     _getGestures();
     _getDropDownValues();
-    //TODO: Set the default dropdown value for _associated gestures to the gesture names associated with the actuator - will need to fetch gesture with specific associated actuator.
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
@@ -74,18 +73,13 @@ class _ConfigureState extends State<Configure> {
               PopupMenuButton(
                 onSelected: (value) {
                   if (value == 1) {
-                    //TODO: Complete the following code which sets the associated gesture in the database to that specified by the dropdown boxes in the configure page
                     List<Map<String,String>> _associatedActuators = [];
                     for (var i = 0; i < _controlObjects.length; i++) {
                       Map<String,String> temp_entry = new Map();
                       temp_entry['actuator'] = _textControllerNameList[i].text;
                       temp_entry['gesture'] = _associatedGestures[i];
                       _associatedActuators.add(temp_entry);
-                      print('###');
-                      print(temp_entry['actuator']);
-                      print(temp_entry['gesture']);
                     }
-                    //updateAssociatedActuators();
                     setAssociatedActuator(_associatedActuators);
                     // Save the new values
                     for (var i = 0; i < _controlObjects.length; i++) {
@@ -140,7 +134,8 @@ class _ConfigureState extends State<Configure> {
 
                   _firstLoad = false;
                 }
-
+                //TODO: make each list item deletable (e.g. select trash icon in top right corner of item)
+                //TODO: Set appropriate icon for each actuator type
                 return ListView.builder(
                   itemCount: _controlObjects.length,
                   itemBuilder: (BuildContext context, int i) {
@@ -199,7 +194,11 @@ class _ConfigureState extends State<Configure> {
                             ),
                           ],
                         ),
-                        leading: Icon(_controlObjects[i].icon),
+                        leading: Icon((_textControllerNameList[i].text.toLowerCase().contains("light"))?Icons.light:
+                                      (_textControllerNameList[i].text.toLowerCase().contains("door") || _textControllerNameList[i].text.toLowerCase().contains("lock"))?Icons.lock:
+                                      (_textControllerNameList[i].text.toLowerCase().contains("blinds"))?Icons.window:
+                                      (_textControllerNameList[i].text.toLowerCase().contains("powerbar") || _textControllerNameList[i].text.toLowerCase().contains("power_bar") || _textControllerNameList[i].text.toLowerCase().contains("plug"))?Icons.electrical_services:Icons.devices
+                      ),
                       ),
                     );
                   },
