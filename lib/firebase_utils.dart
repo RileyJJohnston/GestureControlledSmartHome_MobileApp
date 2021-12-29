@@ -52,7 +52,6 @@ Future<List<GestureObject>> getGestureObjects(String databaseName) async {
       '/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
           '.', '')}/' + databaseName);
   final snapshot = await reference.get();
-  print((snapshot.value as List)[1]);
   // Create the Gesture objects from the list
   if (snapshot.value is List) {
       (snapshot.value as List).forEachIndexed((index, gesture) {
@@ -94,6 +93,26 @@ Future<bool> saveControlObjects(List<ControlObject> controlObjects, String datab
     // Push the changes
     reference.push();
 
+    return true;
+  } on Exception catch (_, e) {
+    log(e.toString());
+    return false;
+  }
+
+}
+Future<bool> removeActuator(int index, int length) async{
+  try {
+    // Connect to the database and get the correct path
+    FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+    final reference = db.reference().child(
+        'user:${FirebaseAuth.instance.currentUser?.email?.replaceAll('.', '')}/actuators');
+
+    reference.child(index.toString()).remove();
+    for (int i=index+1; i<length; i++){
+      reference.child((i-1).toString()).child("name").set(reference.child((i).toString()).child("name"));
+      reference.child((i-1).toString()).child("ip").set(reference.child((i).toString()).child("ip"));
+    }
+    reference.child(length.toString()).remove();
     return true;
   } on Exception catch (_, e) {
     log(e.toString());
