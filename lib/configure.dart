@@ -17,7 +17,7 @@ class _ConfigureState extends State<Configure> {
   late final Future<List<ControlObject>> _getControjObjectFuture;
   late List<ControlObject> _controlObjects;
   List<String> _associatedGestures = [];
-  List<String> _dropDownValue = ["None","None","None","None","None","None","None","None"];
+  List<String> _dropDownValue = List.filled(100,"Initial");
 
   bool _firstLoad = true;
   @override
@@ -32,13 +32,15 @@ class _ConfigureState extends State<Configure> {
     List<ControlObject> controlObjects = await _getControjObjectFuture;
     var length = controlObjects.length;
     bool initialRun = false;
-    if (_dropDownValue[1] == "None"){
+    if (_dropDownValue[0] == "Initial"){
       initialRun = true;
     }
     for (var i = 0; i < length; i++) {
+      print("i = " + i.toString());
       _dropDownValue[i] = await getAssociatedGesture(list, controlObjects[i].name);
+      print(_dropDownValue[i]);
     }
-    if (initialRun){
+    if (initialRun && (length != 0)){
       setState(() {});
     }
   }
@@ -99,6 +101,7 @@ class _ConfigureState extends State<Configure> {
                   } else if (value == 2) {
                     setState(() {
                       _controlObjects.add(ControlObject("", _controlObjects.length.toString(), Icons.light, ""));
+                      _dropDownValue.add("None");
                       _textControllerNameList.add(TextEditingController(text: ""));
                       _textControllerIPList.add(TextEditingController(text: ""));
                     });
@@ -170,8 +173,8 @@ class _ConfigureState extends State<Configure> {
                                                     actions: <Widget>[
                                                       FlatButton(child: Text("Yes"),onPressed: () {
                                                         setState(() {
+                                                          removeActuator(i, _controlObjects.length);
                                                           _controlObjects.removeAt(i);
-                                                          removeActuator(i);
                                                           Navigator.of(context, rootNavigator: true).pop();
                                                         });
                                                       }
@@ -212,7 +215,7 @@ class _ConfigureState extends State<Configure> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                                   child: DropdownButton<String>(
-                                    value: _dropDownValue[i],
+                                    value: (_dropDownValue[0] == "Initial")?"None":_dropDownValue[i],
                                     icon: const Icon(Icons.keyboard_arrow_down),
                                     iconSize: 40,
                                     elevation: 16,
