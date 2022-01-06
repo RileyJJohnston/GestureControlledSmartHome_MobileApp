@@ -17,7 +17,7 @@ class _ConfigureState extends State<Configure> {
   late final Future<List<ControlObject>> _getControjObjectFuture;
   late List<ControlObject> _controlObjects;
   List<String> _associatedGestures = [];
-  List<String> _dropDownValue = List.filled(100,"Initial");
+  List<String> _dropDownValue = ["Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial","Initial"];//List.filled(100,"Initial");
 
   bool _firstLoad = true;
   @override
@@ -101,6 +101,8 @@ class _ConfigureState extends State<Configure> {
                   } else if (value == 2) {
                     setState(() {
                       _controlObjects.add(ControlObject("", _controlObjects.length.toString(), Icons.light, ""));
+
+                      //_dropDownValue = _dropDownValue.toList();
                       _dropDownValue.add("None");
                       _textControllerNameList.add(TextEditingController(text: ""));
                       _textControllerIPList.add(TextEditingController(text: ""));
@@ -215,7 +217,7 @@ class _ConfigureState extends State<Configure> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                                   child: DropdownButton<String>(
-                                    value: (_dropDownValue[0] == "Initial")?"None":_dropDownValue[i],
+                                    value: (_dropDownValue[i] == "Initial")?"None":_dropDownValue[i],
                                     icon: const Icon(Icons.keyboard_arrow_down),
                                     iconSize: 40,
                                     elevation: 16,
