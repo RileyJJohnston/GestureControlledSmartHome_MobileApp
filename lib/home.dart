@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -66,8 +66,8 @@ class _HomeState extends State<Home> {
                           )
                         ),
                       ),
-                      height: 180,
-                      width: 180,
+                      height: 165,
+                      width: 382,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/configure.jpg'),
@@ -77,45 +77,50 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Control()));
-                    }, // Handle your callback.
-                    splashColor: Colors.brown.withOpacity(0.5),
-                    child: Ink(
-                      child: Center(
-                        child: Text("Control",
-                            style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.white,
-                              backgroundColor: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            )
-                        ),
-                      ),
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/control.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new Control()));
+                }, // Handle your callback.
+                splashColor: Colors.brown.withOpacity(0.5),
+                child: Ink(
+                  child: Center(
+                    child: Text("Control",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          backgroundColor: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        )
+                    ),
+                  ),
+                  height: 165,
+                  width: 382,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/control.jpg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ]
+              ),
             ),
+          ],
+        ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -135,43 +140,11 @@ class _HomeState extends State<Home> {
                               )
                           ),
                         ),
-                        height: 180,
-                        width: 180,
+                        height: 165,
+                        width: 382,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('assets/history.jpg'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new AddUser()));
-                      }, // Handle your callback.
-                      splashColor: Colors.brown.withOpacity(0.5),
-                      child: Ink(
-                        child: Center(
-                          child: Text("Add User",
-                              style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                                backgroundColor: Colors.black.withOpacity(0.1),
-                                fontWeight: FontWeight.w700,
-                              )
-                          ),
-                        ),
-                        height: 180,
-                        width: 180,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/user.jpg'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -184,7 +157,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -204,33 +177,11 @@ class _HomeState extends State<Home> {
                               )
                           ),
                         ),
-                        height: 180,
-                        width: 180,
+                        height: 165,
+                        width: 382,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('assets/hand.jpg'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new Login()));
-                      }, // Handle your callback.
-                      splashColor: Colors.brown.withOpacity(0.5),
-                      child: Ink(
-                        height: 180,
-                        width: 180,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/configure.jpg'),
                             fit: BoxFit.cover,
                           ),
                         ),
