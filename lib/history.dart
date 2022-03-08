@@ -70,7 +70,7 @@ class _HistoryState extends State<History> {
                   text: '', // default text style
                   children: <TextSpan>[
                     TextSpan(text: events[index].actuatorName, style: TextStyle(fontWeight: FontWeight.bold, fontSize:18)),
-                    TextSpan(text: " (" + events[index].ip + ") triggered at " + events[index].timestamp, style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: " (" + events[index].ip + ") triggered on " + events[index].timestamp, style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ));//Text(events[index].actuatorName + " (" + events[index].ip + ") triggered at " + events[index].timestamp,  style: const TextStyle(fontWeight: FontWeight.bold),);
