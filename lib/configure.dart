@@ -140,7 +140,6 @@ class _ConfigureState extends State<Configure> {
 
                   _firstLoad = false;
                 }
-                //TODO: make each list item deletable (e.g. select trash icon in top right corner of item)
                 return ListView.builder(
                   itemCount: _controlObjects.length,
                   itemBuilder: (BuildContext context, int i) {

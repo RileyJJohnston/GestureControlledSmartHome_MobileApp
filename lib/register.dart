@@ -88,8 +88,7 @@ class _RegisterState extends State<Register> {
           context: context,
           builder: (ctx) =>
               AlertDialog(
-                  title:
-                  Text('Registration Failed'),
+                  title: Text('Registration Failed'),
                   content: Text('${e.message}')
               )
       );
