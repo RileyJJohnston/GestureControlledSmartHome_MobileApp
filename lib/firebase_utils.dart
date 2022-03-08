@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 Future<List<ControlObject>> getControlObjects(String databaseName) async {
   final controlObjects = List<ControlObject>.empty(growable: true);
@@ -53,6 +54,10 @@ Future<List<GestureObject>> getGestureObjects(String databaseName) async {
           '.', '')}/' + databaseName);
   final snapshot = await reference.get();
   // Create the Gesture objects from the list
+    print("invoked");
+    print(snapshot.value);
+    print(snapshot.value.runtimeType);
+
   if (snapshot.value is List) {
       (snapshot.value as List).forEachIndexed((index, gesture) {
           print('/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
@@ -66,6 +71,90 @@ Future<List<GestureObject>> getGestureObjects(String databaseName) async {
       );
   }
   return gestureObjects;
+}
+
+Future<List<HistoryObject>> fetchHistory(int startIndex, int endIndex) async {
+  final historyObjects = List<HistoryObject>.empty(growable: true);
+
+  // Connect to the database and get the correct path
+  FirebaseDatabase db = FirebaseDatabase(app: Firebase.apps.first);
+  final reference = db.reference().child(
+      '/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+          '.', '')}/' + "events");
+  final snapshot = await reference.get();
+  // Create the Gesture objects from the list
+  print(snapshot);
+
+  //print("invoked");
+  //print(snapshot.value);
+  //print(snapshot.value.runtimeType);
+
+  //final jsonData = jsonDecode('{"yes":2}');
+  //print(jsonData["yes"]);
+
+  //print("%%%%%%%%%%%%%");
+  //print(jsonEncode(snapshot.value));
+  //final jsonData2 = jsonDecode(jsonEncode(snapshot.value));
+  //print(jsonData2);
+
+  print("start debug");
+  //String test = json.encode({"-Mx-shGlZw7duJ0g3A9S": {"ip": "168.192.0.20", "actuatorName": "doorLock", "timestamp": "Mon Feb 28 10:11:21 2022"}, "no": "{no: yes}", "-Mx-wWymCoeRB4-uF81m": {"ip": "10.0.2.6", "actuatorName": "blinds", "timestamp": "Mon Feb 28 10:28:03 2022"}});
+  //test = snapshot.value.toString();
+  //print(test);
+  //print(json.encode(json.decode(test).runtimeType));
+  //print(json.decode(test));
+  //print(json.decode(test).runtimeType);
+  //print("######################");
+  List<Object> snapshotList = [];
+  //print(jsonDecode(jsonEncode(snapshot.value)));
+  (Map<String, dynamic>.from(jsonDecode(jsonEncode(snapshot.value))).values.forEach((str) {
+    List<Object> lst = [];
+    lst.add(str['ip'].toString());
+    //print("YES");
+    //print(str.toString());
+    //print(str['ip']);
+    //print(str['actuatorName']);
+    //print(str['timestamp']);
+    lst.add(str['actuatorName'].toString());
+    lst.add(str['timestamp'].toString());
+    snapshotList.add(lst);
+  }));
+  //List<Object>? lst = json.decode(test);//"{-Mx-shGlZw7duJ0g3A9S: {ip: 168.192.0.20, actuatorName: doorLock, timestamp: Mon Feb 28 10:11:21 2022}, no: {no: yes}}");//
+  //print("done");
+  //lst = snapshot.value.toString() != null ? List.from(jsonDecode(test)) : null;
+  //lst;
+  //print(lst);
+  //print(lst.runtimeType);
+  //print("2");
+  //print(lst[0].runtimeType);
+  //print("2");
+  print("start");
+  print(startIndex);
+  print(endIndex);
+  if (snapshotList is List) {
+    (snapshotList as List).forEachIndexed((index, event) {
+      print("event: " + jsonEncode(event).toString());
+      //print("event: " + json.encode(event).toString());
+      print('/user:${FirebaseAuth.instance.currentUser?.email?.replaceAll(
+          '.', '')}/' + "events");
+      //(Map<String, dynamic>.from(jsonDecode(jsonEncode(event))).values.forEach((str) => lst.add(str.toString())));
+      if (index>=startIndex && index<endIndex){
+        //print((json.decode(json.encode(event))).runtimeType);
+        //print("TEST: " + jsonDecode(json.encode({1:1}))['ip']);
+        //print(event[0]);
+        //print(event[1]);
+        //print(event[2]);
+        //print("done");
+        //(Map<String, dynamic>.from(json.decode(event))).values.forEach((str) => ip="sucess");
+          historyObjects.add(HistoryObject(
+              event[1],
+              event[0],
+              event[2]
+          ));}
+    }
+    );
+  }
+  return historyObjects;
 }
 
 Future<String> getAssociatedGesture(List<GestureObject> gestureList, String actuatorName) async {
@@ -198,6 +287,14 @@ class ControlObject {
   String ip;
 
   ControlObject(this.name, this.id, this.icon, this.ip);
+}
+
+class HistoryObject {
+  String actuatorName;
+  String ip;
+  String timestamp;
+
+  HistoryObject(this.actuatorName, this.ip, this.timestamp);
 }
 
 class GestureObject {

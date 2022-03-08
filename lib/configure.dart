@@ -84,6 +84,7 @@ class _ConfigureState extends State<Configure> {
                     }
                     setAssociatedActuator(_associatedActuators);
                     // Save the new values
+                    print("<<<<>>>>>");
                     for (var i = 0; i < _controlObjects.length; i++) {
                       _controlObjects[i].name = _textControllerNameList[i].text;
                       _controlObjects[i].ip = _textControllerIPList[i].text;

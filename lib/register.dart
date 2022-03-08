@@ -100,6 +100,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
             Padding(

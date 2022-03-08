@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
                               )
                           ),
                         ),
-                        height: 165,
+                        height: 164,
                         width: 382,
                         decoration: BoxDecoration(
                           image: DecorationImage(
